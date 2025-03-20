@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add Doctor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            h1 {
+                text-align: center;
+            }
+            form {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .form-group {
+                display: grid;
+                grid-template-columns: 120px 1fr;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            .form-group label {
+                text-align: right;
+                align-self: center;
+            }
+            .form-group input {
+                width: 100%;
+                padding: 5px;
+            }
+            input[type="submit"] {
+                grid-column: span 2;
+                width: 100%;
+                padding: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+        </style>-->
+    </head>
+    <body>
+        <h1>Add Doctor</h1>
+        <form action="adddoctor.jsp">
+            <div class="form-group">
+                <label for="last_name">Surname:</label>
+                <input type="text" id="last_name" name="last_name">
+            </div>
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name">
+            </div>
+            <div class="form-group">
+                <label for="middle_name">Middle Name:</label>
+                <input type="text" id="middle_name" name="middle_name">
+            </div>
+            <div class="form-group">
+                <label for="sex">Sex:</label>
+                <input type="text" id="sex" name="sex">
+            </div>
+            <div class="form-group">
+                <label for="birthday">Birthday:</label>
+                <input type="text" id="birthday" name="birthday">
+            </div>
+            <div class="form-group">
+                <label for="medical_certification">Medical Certification:</label>
+                <input type="text" id="medical_certification" name="medical_certification">
+            </div>
+            <div class="form-group">
+                <label for="years_of_service">Years of Service:</label>
+                <input type="text" id="years_of_service" name="years_of_service">
+            </div>
+            <div class="form-group">
+                <label for="specialization">Specialization:</label>
+                <input type="text" id="specialization" name="specialization">
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>
