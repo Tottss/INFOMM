@@ -1,3 +1,4 @@
+package java.clinicdb;
 
 public class Appointments {
     public int Appointment_ID;
@@ -9,7 +10,7 @@ public class Appointments {
     public Double Total_fees;
     public String Payment_status;
 
-    public Appointments(){
+    public Appointments() {
         Appointment_ID = 0;
         MRN = "";
         NPI = "";

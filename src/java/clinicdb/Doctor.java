@@ -1,4 +1,4 @@
-package DBAPPG10;
+package java.clinicdb;
 
 import java.sql.*;
 

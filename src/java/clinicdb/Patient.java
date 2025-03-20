@@ -1,3 +1,4 @@
+package java.clinicdb;
 
 import java.sql.*;
 
@@ -10,7 +11,7 @@ public class Patient {
     public String Birthday;
     public int Contact_no;
 
-    public Patient(){
+    public Patient() {
         MRN = "";
         Last_name = "";
         First_name = "";
@@ -18,13 +19,15 @@ public class Patient {
         Sex = "";
         Birthday = "";
         Contact_no = 0;
-        
+
     }
 
     public boolean addPatient() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Patients (MRN, Last_name, First_name, Middle_name, Sex, Birthday, contact_no) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
+            PreparedStatement pstmt = conn.prepareStatement(
+                    "INSERT INTO Patients (MRN, Last_name, First_name, Middle_name, Sex, Birthday, contact_no) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
             pstmt.setString(1, MRN);
             pstmt.setString(2, Last_name);
             pstmt.setString(3, First_name);
@@ -54,10 +57,10 @@ public class Patient {
 
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, newValue);  // New value
-            pstmt.setString(2, MRN);       // Doctor's ID
+            pstmt.setString(1, newValue); // New value
+            pstmt.setString(2, MRN); // Doctor's ID
 
             int rowsUpdated = pstmt.executeUpdate();
             return rowsUpdated > 0;
@@ -70,7 +73,8 @@ public class Patient {
 
     public int delete_patient() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Patients WHERE MRN=?");
             pstmt.setString(1, MRN);
             pstmt.executeUpdate();
@@ -86,7 +90,8 @@ public class Patient {
 
     public int viewPatientRecord() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbapp?useSSL=false&serverTimezone=UTC", "root", "sgdsmt21");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/dbapp?useSSL=false&serverTimezone=UTC", "root", "sgdsmt21");
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Patients WHERE MRN=?");
             pstmt.setString(1, MRN);
             ResultSet rs = pstmt.executeQuery();
@@ -111,7 +116,7 @@ public class Patient {
             System.out.println(e.getMessage());
             return 0;
         }
-        
+
     }
 
     // Helper method to validate allowed column names (prevents SQL injection)
