@@ -17,6 +17,7 @@
 
         <% 
             // Receive the values from adddoctor.html
+            String v_npi = request.getParameter("npi");
             String v_surname = request.getParameter("last_name");
             String v_firstname = request.getParameter("first_name");
             String v_middlename = request.getParameter("middle_name");
@@ -27,6 +28,7 @@
             String v_specialization = request.getParameter("specialization");
 
             // Set the properties of the Doctor bean
+            A.setNPI(v_npi);
             A.setLastName(v_surname);
             A.setFirstName(v_firstname);
             A.setMiddleName(v_middlename);
