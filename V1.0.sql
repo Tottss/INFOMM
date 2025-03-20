@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Appointments` (
   `NPI` VARCHAR(45) NOT NULL,
   `Purpose` VARCHAR(45) NOT NULL,
   `Start_datetime` DATETIME NOT NULL,
-  `Appointmentscol` DATETIME NOT NULL,
+  `End_datetime` DATETIME NOT NULL,
   `Total_fees` DOUBLE NOT NULL,
   `Payment_status` ENUM('Unpaid', 'Paid', 'Refunded') NOT NULL,
   PRIMARY KEY (`Appointment_ID`),
