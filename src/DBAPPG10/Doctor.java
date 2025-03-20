@@ -105,7 +105,7 @@ public class Doctor{
                 Year_of_service = rs.getString("Year_of_service");
                 specialization = rs.getString("Specialization");
 
-
+                // front end code nalang kulang
                 rs.close();
             }
 
