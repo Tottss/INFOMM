@@ -92,7 +92,7 @@ public class Patient {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                MRN = rs.getString("NPI");
+                MRN = rs.getString("MRN");
                 Last_name = rs.getString("Last_name");
                 First_name = rs.getString("First_name");
                 Middle_name = rs.getString("Middle_name");
