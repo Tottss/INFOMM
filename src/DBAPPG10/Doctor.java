@@ -71,6 +71,56 @@ public class Doctor{
         }
     }
 
+    public int delete_doctor() {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Doctor WHERE NPI=?");
+            pstmt.setString(1, NPI);
+            pstmt.executeUpdate();
+            System.out.println("Doctor record was deleted");
+            pstmt.close();
+            conn.close();
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
+    public int view_doctor() {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbapp?useSSL=false&serverTimezone=UTC", "root", "sgdsmt21");
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM doctor WHERE NPI=?");
+            pstmt.setString(1, NPI);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                NPI = rs.getString("NPI");
+                Last_name = rs.getString("Last_name");
+                First_name = rs.getString("First_name");
+                Middle_name = rs.getString("Middle_name");
+                Sex = rs.getString("Sex");
+                Birthday = rs.getString("Birthday");
+                Medical_certification = rs.getString("Medical_certification");
+                Year_of_service = rs.getString("Year_of_service");
+                specialization = rs.getString("Specialization");
+
+
+                rs.close();
+            }
+
+            pstmt.close();
+            conn.close();
+            return 1;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+        
+    }
+
+    
     // Helper method to validate allowed column names (prevents SQL injection)
     private boolean isValidField(String field) {
         return field.matches("Last_name|First_name|Middle_name|Sex|Birthday|Medical_certification|Years_of_service|Specialization");
