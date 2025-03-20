@@ -53,24 +53,43 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`Lab_request`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Lab_request` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Lab_request` (
+  `Lab_request_id` INT NOT NULL,
+  `NPI` VARCHAR(45) NOT NULL,
+  `MRN` VARCHAR(45) NOT NULL,
+  `Reason` VARCHAR(45) NOT NULL,
+  `Date_requested` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Lab_request_id`),
+  UNIQUE INDEX `Lab_request_id_UNIQUE` (`Lab_request_id` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`Lab_reports`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`Lab_reports` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`Lab_reports` (
   `Lab_report_id` VARCHAR(45) NOT NULL,
+  `Lap_request_id` INT NOT NULL,
   `MRN` VARCHAR(45) NOT NULL,
   `NPI` VARCHAR(45) NOT NULL,
   `Testing_for` VARCHAR(45) NOT NULL,
   `Findings` VARCHAR(45) NOT NULL,
-  `Lab_test_date` DATE NOT NULL,
+  `Lab_test_date` DATETIME NOT NULL,
   `Lab_Fees` DOUBLE NOT NULL,
-  `Payment_status` ENUM('Unpaid', 'Paid', 'Refunded') NOT NULL,
-  `Result_status` ENUM('Pending', 'Completed') NOT NULL,
+  `Payment_record_id` INT NOT NULL,
+  `lab_results` VARCHAR(45) NULL,
+  `Report_status` ENUM('Pending', 'Completed') NOT NULL,
   PRIMARY KEY (`Lab_report_id`),
   UNIQUE INDEX `Lab_report_id_UNIQUE` (`Lab_report_id` ASC) VISIBLE,
   INDEX `FK5_idx` (`NPI` ASC) VISIBLE,
   INDEX `FK6_idx` (`MRN` ASC) VISIBLE,
+  UNIQUE INDEX `Lap_request_id_UNIQUE` (`Lap_request_id` ASC) VISIBLE,
   CONSTRAINT `FK5`
     FOREIGN KEY (`NPI`)
     REFERENCES `mydb`.`Doctor` (`NPI`)
@@ -79,6 +98,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Lab_reports` (
   CONSTRAINT `FK6`
     FOREIGN KEY (`MRN`)
     REFERENCES `mydb`.`Patients` (`MRN`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FKl`
+    FOREIGN KEY (`Lap_request_id`)
+    REFERENCES `mydb`.`Lab_request` (`Lab_request_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -94,8 +118,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Appointments` (
   `MRN` VARCHAR(45) NOT NULL,
   `NPI` VARCHAR(45) NOT NULL,
   `Purpose` VARCHAR(45) NOT NULL,
-  `date_of_visit` DATE NOT NULL,
+  `Start_datetime` DATETIME NOT NULL,
+  `Appointmentscol` DATETIME NOT NULL,
   `Total_fees` DOUBLE NOT NULL,
+  `Payment_status` ENUM('Unpaid', 'Paid', 'Refunded') NOT NULL,
   PRIMARY KEY (`Appointment_ID`),
   UNIQUE INDEX `Appointment_ID_UNIQUE` (`Appointment_ID` ASC) VISIBLE,
   INDEX `FK1_idx` (`NPI` ASC) VISIBLE,
@@ -138,6 +164,89 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Prescriptions` (
   CONSTRAINT `FK4`
     FOREIGN KEY (`MRN`)
     REFERENCES `mydb`.`Patients` (`MRN`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Booking`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Booking` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Booking` (
+  `Booking` VARCHAR(45) NOT NULL,
+  `Appointment_ID` INT NOT NULL,
+  `MRN` VARCHAR(45) NOT NULL,
+  `NPI` VARCHAR(45) NOT NULL,
+  `Booking_date` DATE NOT NULL,
+  `Appointment_date` DATETIME NOT NULL,
+  PRIMARY KEY (`Booking`),
+  UNIQUE INDEX `Booking_UNIQUE` (`Booking` ASC) VISIBLE,
+  INDEX `FK9_idx` (`NPI` ASC) VISIBLE,
+  INDEX `FK10_idx` (`MRN` ASC) VISIBLE,
+  UNIQUE INDEX `Appointment_ID_UNIQUE` (`Appointment_ID` ASC) VISIBLE,
+  CONSTRAINT `FK8`
+    FOREIGN KEY (`Appointment_ID`)
+    REFERENCES `mydb`.`Appointments` (`Appointment_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK9`
+    FOREIGN KEY (`NPI`)
+    REFERENCES `mydb`.`Doctor` (`NPI`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK10`
+    FOREIGN KEY (`MRN`)
+    REFERENCES `mydb`.`Patients` (`MRN`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Diagnosis`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Diagnosis` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Diagnosis` (
+  `Diagnosis_id` INT NOT NULL,
+  `Appointment_ID` INT NOT NULL,
+  `Diagnosis` VARCHAR(45) NOT NULL,
+  `Treatment` VARCHAR(45) NULL,
+  PRIMARY KEY (`Diagnosis_id`),
+  UNIQUE INDEX `Diagnosis_id_UNIQUE` (`Diagnosis_id` ASC) VISIBLE,
+  INDEX `FKA_idx` (`Appointment_ID` ASC) VISIBLE,
+  CONSTRAINT `FKA`
+    FOREIGN KEY (`Appointment_ID`)
+    REFERENCES `mydb`.`Appointments` (`Appointment_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Payment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Payment` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Payment` (
+  `Payment_id` INT NOT NULL,
+  `lab_report_id` VARCHAR(45) NULL,
+  `MRN` VARCHAR(45) NOT NULL,
+  `Appointment_ID` INT NULL,
+  PRIMARY KEY (`Payment_id`),
+  UNIQUE INDEX `Payment_id_UNIQUE` (`Payment_id` ASC) VISIBLE,
+  INDEX `FKm_idx` (`Appointment_ID` ASC) VISIBLE,
+  INDEX `FKL_idx` (`lab_report_id` ASC) VISIBLE,
+  CONSTRAINT `FKm`
+    FOREIGN KEY (`Appointment_ID`)
+    REFERENCES `mydb`.`Appointments` (`Appointment_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FKLoer`
+    FOREIGN KEY (`lab_report_id`)
+    REFERENCES `mydb`.`Lab_reports` (`Lab_report_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
