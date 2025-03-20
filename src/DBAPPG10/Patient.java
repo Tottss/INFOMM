@@ -21,7 +21,7 @@ public class Patient {
         
     }
 
-    public boolean adddoctor() {
+    public boolean addPatient() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Patients (MRN, Last_name, First_name, Middle_name, Sex, Birthday, contact_no) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
