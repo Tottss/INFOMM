@@ -24,7 +24,7 @@ public class Doctor{
         specialization = "";
     }
     
-    public boolean addteam() {
+    public boolean adddoctor() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Doctor (NPI, Last_name, First_name, Middle_name, Sex, Birthday, Medical_certification, Years_of_service, Specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
@@ -46,6 +46,8 @@ public class Doctor{
             return false;
         }
     }
+    
+    
     public boolean updateDoctorField(String NPI, String field, String newValue) {
         // Validate input to prevent SQL injection (only allow specific column names)
         if (!isValidField(field)) {
