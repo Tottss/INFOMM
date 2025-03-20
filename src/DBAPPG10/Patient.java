@@ -1,42 +1,37 @@
 
 import java.sql.*;
 
-public class Doctor{
-    public String NPI;
+public class Patient {
+    public String MRN;
     public String Last_name;
     public String First_name;
     public String Middle_name;
     public String Sex;
     public String Birthday;
-    public String Medical_certification;
-    public String Year_of_service;
-    public String specialization;
+    public int Contact_no;
 
-    public Doctor(){
-        NPI = "";
+    public Patient(){
+        MRN = "";
         Last_name = "";
         First_name = "";
         Middle_name = "";
         Sex = "";
         Birthday = "";
-        Medical_certification = "";
-        Year_of_service = "";
-        specialization = "";
+        Contact_no = 0;
+        
     }
-    
-    public boolean addteam() {
+
+    public boolean adddoctor() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Doctor (NPI, Last_name, First_name, Middle_name, Sex, Birthday, Medical_certification, Years_of_service, Specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
-            pstmt.setString(1, NPI);
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Patients (MRN, Last_name, First_name, Middle_name, Sex, Birthday, contact_no) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
+            pstmt.setString(1, MRN);
             pstmt.setString(2, Last_name);
             pstmt.setString(3, First_name);
             pstmt.setString(4, Middle_name);
             pstmt.setString(5, Sex);
             pstmt.setString(6, Birthday);
-            pstmt.setString(7, Medical_certification);
-            pstmt.setString(8, Year_of_service);
-            pstmt.setString(9, specialization);
+            pstmt.setInt(7, Contact_no);
             pstmt.executeUpdate();
             pstmt.close();
             conn.close();
@@ -46,7 +41,8 @@ public class Doctor{
             return false;
         }
     }
-    public boolean updateDoctorField(String NPI, String field, String newValue) {
+
+    public boolean updatePatientField(String MRN, String field, String newValue) {
         // Validate input to prevent SQL injection (only allow specific column names)
         if (!isValidField(field)) {
             System.out.println("Invalid field name.");
@@ -54,14 +50,14 @@ public class Doctor{
         }
 
         // Dynamic SQL Query
-        String sql = "UPDATE Doctor SET " + field + " = ? WHERE NPI = ?";
+        String sql = "UPDATE Patients SET " + field + " = ? WHERE MRN = ?";
 
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, newValue);  // New value
-            pstmt.setString(2, NPI);       // Doctor's ID
+            pstmt.setString(2, MRN);       // Doctor's ID
 
             int rowsUpdated = pstmt.executeUpdate();
             return rowsUpdated > 0;
@@ -72,13 +68,13 @@ public class Doctor{
         }
     }
 
-    public int delete_doctor() {
+    public int delete_patient() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
-            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Doctor WHERE NPI=?");
-            pstmt.setString(1, NPI);
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Patients WHERE MRN=?");
+            pstmt.setString(1, MRN);
             pstmt.executeUpdate();
-            System.out.println("Doctor record was deleted");
+            System.out.println("Patient record was deleted");
             pstmt.close();
             conn.close();
             return 1;
@@ -88,24 +84,21 @@ public class Doctor{
         }
     }
 
-    public int view_doctor() {
+    public int viewPatientRecord() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbapp?useSSL=false&serverTimezone=UTC", "root", "sgdsmt21");
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM doctor WHERE NPI=?");
-            pstmt.setString(1, NPI);
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Patients WHERE MRN=?");
+            pstmt.setString(1, MRN);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                NPI = rs.getString("NPI");
+                MRN = rs.getString("NPI");
                 Last_name = rs.getString("Last_name");
                 First_name = rs.getString("First_name");
                 Middle_name = rs.getString("Middle_name");
                 Sex = rs.getString("Sex");
                 Birthday = rs.getString("Birthday");
-                Medical_certification = rs.getString("Medical_certification");
-                Year_of_service = rs.getString("Year_of_service");
-                specialization = rs.getString("Specialization");
-
+                Contact_no = rs.getInt("contact_no");
                 // front end code nalang kulang
                 rs.close();
             }
@@ -121,11 +114,9 @@ public class Doctor{
         
     }
 
-    
     // Helper method to validate allowed column names (prevents SQL injection)
     private boolean isValidField(String field) {
-        return field.matches("Last_name|First_name|Middle_name|Sex|Birthday|Medical_certification|Years_of_service|Specialization");
+        return field.matches("Last_name|First_name|Middle_name|Sex|Birthday|contact_no");
     }
-
 
 }
