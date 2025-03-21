@@ -9,7 +9,7 @@ public class ViewAppointment {
     // Database credentials
     private static final String URL = "jdbc:mysql://localhost:3306/clinic?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
-    private static final String PASSWORD = "Schummi22?";
+    private static final String PASSWORD = "password";
 
     public void getAppointmentDetails(String appointmentId) {
         String query = "SELECT appointment_id, patient_name FROM vw_appointmentdetails WHERE appointment_id = ? LIMIT 2";
