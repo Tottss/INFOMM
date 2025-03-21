@@ -16,6 +16,7 @@
         <jsp:useBean id="A" class="clinicdb.Doctor" scope="session" />  
 
         <% 
+            try{
             // Receive the values from adddoctor.html
             String v_npi = request.getParameter("npi");
             String v_surname = request.getParameter("last_name");
@@ -51,6 +52,8 @@
         <h1>Adding Doctor Failed</h1>
         <% 
             } 
+            catch(Exception e)
+            System.out.println(e);
         %>
     </body>
 </html>
