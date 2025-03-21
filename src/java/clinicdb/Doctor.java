@@ -100,8 +100,15 @@ public class Doctor {
 
     public boolean adddoctor() {
         try {
+            // Debug: Print connection attempt
+            System.out.println("Attempting to connect to the database...");
+
             Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
+                    "jdbc:mysql://localhost:3306/clinic?useTimezone=true&serverTimezone=UTC&user=root&password=password");
+
+            // Debug: Print success message if connected
+            System.out.println("Connected to the database successfully!");
+
             PreparedStatement pstmt = conn.prepareStatement(
                     "INSERT INTO Doctor (npi, last_name, first_name, middle_name, sex, birthdate, medical_certification, Years_of_service, specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
             pstmt.setString(1, npi);
@@ -134,7 +141,7 @@ public class Doctor {
         String sql = "UPDATE Doctor SET " + field + " = ? WHERE npi = ?";
 
         try (Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/dbathletes?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
+                "jdbc:mysql://localhost:3306/clinic?useTimezone=true&serverTimezone=UTC&user=root&password=password");
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, newValue); // New value
