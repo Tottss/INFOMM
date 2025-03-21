@@ -1,1 +1,0 @@
-java.clinicdb.Appointments
