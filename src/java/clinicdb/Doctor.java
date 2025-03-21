@@ -1,4 +1,4 @@
-package clinicdb;
+package java.clinicdb;
 
 import java.sql.*;
 
@@ -110,7 +110,7 @@ public class Doctor {
             System.out.println("Connected to the database successfully!");
 
             PreparedStatement pstmt = conn.prepareStatement(
-                    "INSERT INTO Doctor (npi, last_name, first_name, middle_name, sex, birthdate, medical_certification, Years_of_service, specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
+                    "INSERT INTO doctor (npi, last_name, first_name, middle_name, sex, birth_date, medical_certification, years_of_service, specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
             pstmt.setString(1, npi);
             pstmt.setString(2, last_name);
             pstmt.setString(3, first_name);
