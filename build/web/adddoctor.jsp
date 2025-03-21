@@ -52,8 +52,10 @@
         <h1>Adding Doctor Failed</h1>
         <% 
             } 
-            catch(Exception e)
+        }
+            catch(Exception e){
             System.out.println(e);
+            }
         %>
     </body>
 </html>

@@ -1,4 +1,4 @@
-package clinicdb;
+package java.clinicdb;
 
 import java.sql.*;
 
