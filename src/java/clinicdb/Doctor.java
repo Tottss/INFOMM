@@ -1,4 +1,4 @@
-package java.clinicdb;
+package clinicdb;
 
 import java.sql.*;
 
@@ -101,16 +101,15 @@ public class Doctor {
     public boolean adddoctor() {
         try {
             // Debug: Print connection attempt
-            System.out.println("Attempting to connect to the database...");
+  
 
             Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/clinic?useTimezone=true&serverTimezone=UTC&user=root&password=password");
+                    "jdbc:mysql://localhost:3306/clinic?useTimezone=true&serverTimezone=UTC&user=root&password=1123_Jeru");
 
             // Debug: Print success message if connected
-            System.out.println("Connected to the database successfully!");
 
             PreparedStatement pstmt = conn.prepareStatement(
-                    "INSERT INTO doctor (npi, last_name, first_name, middle_name, sex, birth_date, medical_certification, years_of_service, specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
+                    "INSERT INTO doctors (npi, last_name, first_name, middle_name, sex, birth_date, medical_certification, years_of_service, specialization) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)");
             pstmt.setString(1, npi);
             pstmt.setString(2, last_name);
             pstmt.setString(3, first_name);
@@ -125,7 +124,7 @@ public class Doctor {
             conn.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return false;
         }
     }
@@ -201,7 +200,7 @@ public class Doctor {
             return 1;
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return 0;
         }
 
@@ -212,5 +211,7 @@ public class Doctor {
         return field.matches(
                 "last_name|first_name|middle_name|sex|birthdate|medical_certification|Years_of_service|specialization");
     }
+
+
 
 }

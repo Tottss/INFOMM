@@ -13,7 +13,8 @@
         <title>Add Doctor Processing</title>
     </head>
     <body>
-        <jsp:useBean id="A" class="clinicdb.Doctor" scope="session" />  
+        
+        <jsp:useBean id="A" class="clinicdb.Doctor" scope="session" />
 
         <% 
             try{
