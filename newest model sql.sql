@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `clinic`.`appointments` (
   `appointment_id` INT NOT NULL AUTO_INCREMENT,
   `mrn` INT NOT NULL,
   `npi` INT NOT NULL,
-  `lab_report_id` INT NOT NULL,
+  `lab_report_id` INT NULL,
   `purpose` VARCHAR(45) NULL DEFAULT NULL,
   `start_datetime` DATETIME NULL DEFAULT NULL,
   `end_datetime` DATETIME NULL DEFAULT NULL,
