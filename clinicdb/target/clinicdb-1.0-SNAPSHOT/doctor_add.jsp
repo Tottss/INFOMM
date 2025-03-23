@@ -39,7 +39,7 @@
             <input type="text" id="specialization" name="specialization" required><br>
             
             
-            <button type="submit">Submit Appointment</button>
+            <button type="submit">Submit Doctor</button>
         </form>
     </body
 </html>
