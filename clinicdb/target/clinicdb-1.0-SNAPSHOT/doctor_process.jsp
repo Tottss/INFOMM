@@ -18,9 +18,13 @@
                                             request.getParameter("specialization"));
                                             
             if (appointment == 1){out.println("<h1>Successfully added doctor.</h1><br>"); }
-            else if (appointment == 0) {
+            else if (appointment == -1) {
                 out.println("<h1>Failed to add doctor.</h1><br>"
                 + "<p>doctor adding failed</p>");
+            } 
+            else if (appointment == 0) {
+                out.println("<h1>Failed to do anything.</h1><br>"
+                + "<p>Failed to do anything</p>");
             } 
             
     %>

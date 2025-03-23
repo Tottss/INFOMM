@@ -12,22 +12,22 @@
             <input type="text" id="last_name" name="last_name" required><br>
 
             <label for="First_name">First Name:</label>
-            <input type="text" id="last_name" name="last_name" required><br>
+            <input type="text" id="First_name" name="First_name" required><br>
             
             <label for="purpose">middle_name:</label>
-            <input type="text" id="middle_name" name="middle_name" required><br>
+            <input type="text" id="middle_name" name="middle_name" ><br>
 
             <label for="Sex">Sex</label>
-            <select id="Sex" name="Sex" required>
+            <select id="sex" name="sex" required>
                 <option value="">Select</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
             </select>
             <br>
 
             <!-- html date format: "YYYY-MM-DD"  -->
             <label for="date">Select Birthday</label>
-            <input type="date" name="date" id="date" required><br>
+            <input type="date" name="birth_date" id="birth_date" required><br>
 
             <label for="purpose">Medical Certification:</label>
             <input type="text" id="medical_certification" name="medical_certification" required><br>

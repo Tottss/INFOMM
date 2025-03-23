@@ -71,9 +71,49 @@ public class Doctor {
         return 0;
     }
 
-    public int view_doctor(String npi){
+    public int view_doctor(String value) {
+        String query = "SELECT * FROM doctors WHERE  npi  = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
+            try (Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
+            PreparedStatement ps = conn.prepareStatement(query)) {
+    
+                // Convert value to integer if searching by NPI
+                ps.setString(1,value);
+    
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        this.npi = rs.getString("npi");  // ✅ Correctly assigning NPI
+                        this.last_name = rs.getString("last_name");
+                        this.First_name = rs.getString("First_name"); // ✅ Fixed capitalization
+                        this.middle_name = rs.getString("middle_name");
+                        this.sex = rs.getString("sex");
+                        this.birth_date = rs.getString("birth_date");
+                        this.medical_certification = rs.getString("medical_certification");
+                        this.years_of_service = rs.getString("years_of_service");
+                        this.specialization = rs.getString("specialization");
+                        return 1; // Doctor found
+                    } else {
+                        this.npi = "No Doctor found";
+                        return 0; // Doctor not found
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid NPI format: " + value);
+            return -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("SQL Error: " + e.getMessage());
+            return -1;
+        }
+    }
 
-        String query = "Select * FROM doctors WHERE npi = ?";
+
+    public int deleteDoctor(String value){
+        
+
+        String query = "DELETE FROM doctors WHERE npi = ?";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
@@ -82,35 +122,16 @@ public class Doctor {
                         DBConnection.USER, DBConnection.PASSWORD);
                 
                 PreparedStatement ps;
-                ResultSet rs ;
                 
                 
                 
                 ps = conn.prepareStatement(query);
-                ps.setString(1, npi);
-                rs = ps.executeQuery();
-                if (rs.next()) { // Ensure a result exists before accessing it
-                    this.npi = rs.getString("npi");
-                    this.last_name = rs.getString("last_name");
-                    this.First_name = rs.getString("First_name");
-                    this.middle_name = rs.getString("middle_name");
-                    this.sex = rs.getString("sex");
-                    this.birth_date = rs.getString("birth_date");
-                    this.medical_certification = rs.getString("medical_certification");
-                    this.years_of_service = rs.getString("years_of_service");
-                    this.specialization = rs.getString("specialization");
-
-                } else {
-                    this.npi = "No Doctor found";
-                    return 0;
-                }
-
-                // MAIN INSERT SQL QUERY
+                ps.setString(1, value);
+                ps.executeUpdate();
                 
                 
-
                 return 1;
-                
+   
             } catch (Exception e){
                 e.printStackTrace();
                 System.err.println("SQL Error: " + e.getMessage());
@@ -118,8 +139,9 @@ public class Doctor {
             }
         } catch (Exception e){
             e.printStackTrace();
+            return 0;
+        
         }
-        return 0;
-    }
     
+    }
 }
