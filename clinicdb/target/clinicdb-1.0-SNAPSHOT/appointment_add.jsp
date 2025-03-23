@@ -9,17 +9,17 @@
         <h1>Add Appointment</h1>
         <form action="appointment_process.jsp" method="post">
             <label for="mrn" >Select the Patient</label>
-            <select name="mrn" id="mrn">
+            <select name="mrn" id="mrn" required>
                 <jsp:include page="helper_select_patient.jsp"></jsp:include>
             </select><br>
             
             <label for="npi">Select the Attending Doctor</label>
-            <select name="npi" id="npi">
+            <select name="npi" id="npi" required>
                 <jsp:include page="helper_select_doctor.jsp"></jsp:include>
             </select><br>
             
             <label for="lab_report_id">Select the Lab Report</label>
-            <select name="lab_report_id" id="lab_report_id">
+            <select name="lab_report_id" id="lab_report_id" required>
                 <jsp:include page="helper_select_report.jsp"></jsp:include>
             </select><br>
             

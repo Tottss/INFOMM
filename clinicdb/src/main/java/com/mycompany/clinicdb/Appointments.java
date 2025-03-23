@@ -24,19 +24,20 @@ public class Appointments {
                                       String start_time, String end_time,
                                       String appointment_fee){
         // sql query
-        String query = "INSERT INTO appointments (appointment_id, mrn, npi, "
+        String query = "INSERT INTO appointments (mrn, npi, "
                 + "lab_report_id, purpose, start_datetime, end_datetime, "
                 + "total_fees, payment_status) "
-                + "VALUES (?,?,?,?,?,?,?,?,?);";
+                + "VALUES (?,?,?,?,?,?,?,?);";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
             try {
                 Connection conn = DriverManager.getConnection(DBConnection.URL,
                         DBConnection.USER, DBConnection.PASSWORD);
                 
-                PreparedStatement ps, ps2, ps3, ps4;
-                ResultSet rs2, rs3, rs4; // note: rs doesnt exist
-                
+                // due to a severe lack of refactoring, there is no ps2
+                PreparedStatement ps, ps3, ps4;
+                ResultSet rs3, rs4; // note: rs and rs2 doesnt exist
+               
                 //Parse html date and time inputs
                 String start_datetime = date+" "+start_time;
                 String end_datetime = date+" "+end_time;
@@ -60,37 +61,17 @@ public class Appointments {
                 rs3 = ps3.executeQuery();
                 
                 if (rs3.next()){ return -2; }
-
-                // calculate total fees: appointment fees + lab fees
-                ps2 = conn.prepareStatement("SELECT lrp.lab_fees "
-                        + "FROM lab_reports lrp JOIN appointments a "
-                        + "ON lrp.lab_report_id=a.lab_report_id "
-                        + "WHERE a.mrn=? AND a.start_datetime=?;");
-                
-                ps2.setString(1, mrn);
-                ps2.setString(2, start_datetime);
-                rs2 = ps2.executeQuery();
-                
-                // parse and add both string fees
-                Double d_total_fees = 0.0;
-                if (rs2.next()){
-                    d_total_fees = Double.valueOf(appointment_fee) +
-                            Double.valueOf(rs2.getString("lab_fees"));
-                }
-                //convert back to string
-                String total_fees = String.valueOf(d_total_fees);
                 
                 // MAIN INSERT SQL QUERY
                 ps = conn.prepareStatement(query);
-                ps.setString(1, "APPT004"); // HARDCODE PLS FIX
-                ps.setString(2, mrn);
-                ps.setString(3, npi);
-                ps.setString(4, lab_report_id);
-                ps.setString(5, purpose);
-                ps.setString(6, start_datetime);
-                ps.setString(7, end_datetime);
-                ps.setString(8, total_fees);
-                ps.setString(9, "unpaid"); // hardcoded default
+                ps.setString(1, mrn);
+                ps.setString(2, npi);
+                ps.setString(3, lab_report_id);
+                ps.setString(4, purpose);
+                ps.setString(5, start_datetime);
+                ps.setString(6, end_datetime);
+                ps.setString(7, appointment_fee);
+                ps.setString(8, "unpaid"); // hardcoded default
                 
                 ps.executeUpdate();
                 return 1;
@@ -104,4 +85,8 @@ public class Appointments {
         return 0;
     }
     
+    public static boolean 
+
+
+
 }
