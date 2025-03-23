@@ -3,15 +3,46 @@ package com.mycompany.clinicdb;
 import java.sql.*;
 
 public class Appointments {
-    public String appointment_id = null;
-    public String mrn = null;
-    public String npi = null;
-    public String lab_report_id = null;
+    public String appointment_id;
+    public String mrn;
+    public String npi;
+    public String lab_report_id;
     public String purpose = null;
     public String start_datetime = null;
     public String end_datetime = null;
-    public double total_fees = 0;
+    public String appointment_fees = null;
     public String payment_status = null;
+    
+    public void get_appointment(String appointment_id){
+        String query = "SELECT * FROM appointments WHERE appointment_id = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
+                try (Connection conn = DriverManager.getConnection(DBConnection.URL,
+                     DBConnection.USER, DBConnection.PASSWORD);
+                     PreparedStatement ps = conn.prepareStatement(query)) {
+                    
+                ps.setInt(1, Integer.parseInt(appointment_id));
+                
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    this.appointment_id = rs.getString("appointment_id");
+                    this.mrn = rs.getString("mrn");
+                    this.npi = rs.getString("npi");
+                    this.lab_report_id = rs.getString("lab_report_id");
+                    this.purpose = rs.getString("purpose");
+                    this.start_datetime = rs.getString("start_datetime");
+                    this.end_datetime = rs.getString("end_datetime");
+                    this.appointment_fees = rs.getString("appointment_fees");
+                    this.payment_status = rs.getString("payment_status");
+                }
+                
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        } catch (Exception e) {
+                    e.printStackTrace();
+        }
+    }
     
     // Returns int
     // -1 : appointment overlaps with another
@@ -26,7 +57,7 @@ public class Appointments {
         // sql query
         String query = "INSERT INTO appointments (mrn, npi, "
                 + "lab_report_id, purpose, start_datetime, end_datetime, "
-                + "total_fees, payment_status) "
+                + "appointment_fees, payment_status) "
                 + "VALUES (?,?,?,?,?,?,?,?);";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
@@ -66,6 +97,9 @@ public class Appointments {
                 ps = conn.prepareStatement(query);
                 ps.setString(1, mrn);
                 ps.setString(2, npi);
+                if (lab_report_id == null || lab_report_id.isEmpty()) {
+                    lab_report_id = null;
+                }
                 ps.setString(3, lab_report_id);
                 ps.setString(4, purpose);
                 ps.setString(5, start_datetime);
@@ -114,6 +148,48 @@ public class Appointments {
     }
     
     return -1; // Return -1 if there was an error
+    }
+    
+    public static int cancel_appointment(int appointment_id) {
+        String deleteAppointmentQuery = "DELETE FROM appointments WHERE appointment_id = ?";
+        String deleteLabReportQuery = "DELETE FROM lab_reports WHERE appointment_id = ?";
+        String deletePaymentsQuery = "DELETE FROM payments WHERE appointment_id = ?";
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Load MySQL driver
+            try (Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD)) {
+                conn.setAutoCommit(false); // Begin transaction
+
+                // Delete related lab reports
+                try (PreparedStatement psLab = conn.prepareStatement(deleteLabReportQuery)) {
+                    psLab.setInt(1, appointment_id);
+                    psLab.executeUpdate();
+                }
+
+                // Delete related payments
+                try (PreparedStatement psPay = conn.prepareStatement(deletePaymentsQuery)) {
+                    psPay.setInt(1, appointment_id);
+                    psPay.executeUpdate();
+                }
+
+                // Delete appointment
+                try (PreparedStatement psApp = conn.prepareStatement(deleteAppointmentQuery)) {
+                    psApp.setInt(1, appointment_id);
+                    int affectedRows = psApp.executeUpdate();
+
+                    if (affectedRows > 0) {
+                        conn.commit(); // Commit transaction
+                        return 1; // Success
+                    } else {
+                        conn.rollback(); // Rollback if no appointment was deleted
+                        return 0;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1; // Error occurred
+        }
     }
 
 }

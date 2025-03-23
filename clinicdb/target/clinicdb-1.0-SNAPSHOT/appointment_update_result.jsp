@@ -16,7 +16,8 @@
         String appointmentFee = request.getParameter("appointment_fees");
         String paymentStatus = request.getParameter("payment_status");
 
-        int appointment = A.update_appointment(appointmentId, purpose, date, startTime, endTime, appointmentFee, paymentStatus);
+        int appointment = A.update_appointment(appointmentId, purpose, date,
+                startTime, endTime, appointmentFee, paymentStatus);
 
         if (appointment == 1) {out.println("<h1>Sucessfully Updated Appointment"); }
         else {out.println("<h1>Failed to Update Appointment"); }

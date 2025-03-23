@@ -20,6 +20,7 @@
             
             <label for="lab_report_id">Select the Lab Report</label>
             <select name="lab_report_id" id="lab_report_id" required>
+                <option value="">None</option>
                 <jsp:include page="helper_select_report.jsp"></jsp:include>
             </select><br>
             
@@ -40,8 +41,8 @@
             
             <!-- dont forget to calculate total fees (appointment fee + lab report fee) -->
             <!-- also html hates decimal types so just parse this string later -->
-            <label for="appointment_fee">Enter Appointment Fee</label>
-            <input type="text" name="appointment_fee" id="appointment_fee" required><br>
+            <label for="appointment_fees">Enter Appointment Fee</label>
+            <input type="text" name="appointment_fees" id="appointment_fees" required><br>
             
             <button type="submit">Submit Appointment</button>
         </form>

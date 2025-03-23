@@ -15,7 +15,7 @@
                                             request.getParameter("date"),
                                             request.getParameter("start_time"),
                                             request.getParameter("end_time"),
-                                            request.getParameter("appointment_fee"));
+                                            request.getParameter("appointment_fees"));
                                             
             if (appointment == 1){out.println("<h1>Successfully added appointment.</h1><br>"); }
             else if (appointment == -1) {
