@@ -3,6 +3,8 @@ package com.mycompany.clinicdb;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 
 public class Doctor {
     public String npi = null;
@@ -38,8 +40,6 @@ public class Doctor {
                 
                 PreparedStatement ps; // note: rs doesnt exist
                 
-                //Parse html date and time inputs
-                String birth_date = birthday;
                 
             
                 
@@ -49,17 +49,72 @@ public class Doctor {
                 ps.setString(2, First_name);
                 ps.setString(3, middle_name);
                 ps.setString(4, sex);
-                ps.setString(5, birth_date);
+                ps.setString(5, birthday);
                 ps.setString(6, medical_certification);
                 ps.setString(7, years_of_service);
-                ps.setString(8, specialization); // hardcoded default
+                ps.setString(8, specialization); 
                 
                 ps.executeUpdate();
+                ps.close();
+                conn.close();
+
                 return 1;
                 
             } catch (Exception e){
                 e.printStackTrace();
-                return 0;
+                System.err.println("SQL Error: " + e.getMessage());
+                return -1;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int view_doctor(String npi){
+
+        String query = "Select * FROM doctors WHERE npi = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
+            try {
+                Connection conn = DriverManager.getConnection(DBConnection.URL,
+                        DBConnection.USER, DBConnection.PASSWORD);
+                
+                PreparedStatement ps;
+                ResultSet rs ;
+                
+                
+                
+                ps = conn.prepareStatement(query);
+                ps.setString(1, npi);
+                rs = ps.executeQuery();
+                if (rs.next()) { // Ensure a result exists before accessing it
+                    this.npi = rs.getString("npi");
+                    this.last_name = rs.getString("last_name");
+                    this.First_name = rs.getString("First_name");
+                    this.middle_name = rs.getString("middle_name");
+                    this.sex = rs.getString("sex");
+                    this.birth_date = rs.getString("birth_date");
+                    this.medical_certification = rs.getString("medical_certification");
+                    this.years_of_service = rs.getString("years_of_service");
+                    this.specialization = rs.getString("specialization");
+
+                } else {
+                    this.npi = "No Doctor found";
+                    return 0;
+                }
+
+                // MAIN INSERT SQL QUERY
+                
+                
+
+                return 1;
+                
+            } catch (Exception e){
+                e.printStackTrace();
+                System.err.println("SQL Error: " + e.getMessage());
+                return -1;
             }
         } catch (Exception e){
             e.printStackTrace();
