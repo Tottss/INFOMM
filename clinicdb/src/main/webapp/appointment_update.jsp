@@ -28,13 +28,6 @@
             <label for="appointment_fees">Update Appointment Fee</label>
             <input type="text" name="appointment_fees" id="appointment_fees"><br>
             
-            <label for="payment_status" >Update Payment Status</label>
-            <select name="payment_status" id="payment_status" required>
-                <option value="unpaid">Unpaid</option>
-                <option value="paid">Paid</option>
-                <option value="refunded">Refunded</option>
-            </select><br>
-            
             <button type="submit">Update Appointment</button>
         </form>
     </body>

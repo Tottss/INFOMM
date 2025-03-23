@@ -19,19 +19,25 @@ VIEW `vw_appointmentdetails` AS
         `p`.`sex` AS `sex`,
         `p`.`birth_date` AS `birth_date`,
         `p`.`contact_no` AS `contact_no`,
-        CONCAT(`d`.`First_name`,
+        CONCAT(COALESCE(`d`.`first_name`, ''),
                 ' ',
-                `d`.`middle_name`,
-                ' ',
-                `d`.`last_name`) AS `attending_doctor`,
+                (CASE
+                    WHEN
+                        ((`d`.`middle_name` IS NOT NULL)
+                            AND (`d`.`middle_name` <> ''))
+                    THEN
+                        CONCAT(`d`.`middle_name`, ' ')
+                    ELSE ''
+                END),
+                COALESCE(`d`.`last_name`, '')) AS `attending_doctor`,
         `d`.`specialization` AS `specialization`,
         `a`.`purpose` AS `purpose`,
         `a`.`start_datetime` AS `start_datetime`,
         `a`.`end_datetime` AS `end_datetime`,
         `lr`.`report_status` AS `lab_report_status`,
-        (`a`.`total_fees` - `lr`.`lab_fees`) AS `appointment_fee`,
-        `lr`.`lab_fees` AS `lab_report_Fee`,
-        `a`.`total_fees` AS `total_fees`,
+        a.appointment_fees,
+        `lr`.`lab_fees`,
+        (`a`.`appointment_fees` + `lr`.`lab_fees`) AS `total_fees`,
         `a`.`payment_status` AS `payment_status`
     FROM
         (((`appointments` `a`

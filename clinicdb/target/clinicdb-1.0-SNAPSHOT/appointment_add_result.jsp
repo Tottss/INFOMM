@@ -6,7 +6,7 @@
         <title>Appointment Process</title>
     </head>
     <body>
-        <jsp:useBean id="A" class="com.mycompany.clinicdb.Appointments" scope="session"/>
+        <jsp:useBean id="A" class="com.mycompany.clinicdb.Appointments" scope="page"/>
         <%
             int appointment = A.add_appointment(request.getParameter("mrn"),
                                             request.getParameter("npi"),

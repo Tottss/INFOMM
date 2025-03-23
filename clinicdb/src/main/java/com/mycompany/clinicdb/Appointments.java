@@ -93,7 +93,7 @@ public class Appointments {
     String end_datetime = date + " " + end_time;
 
     String query = "UPDATE appointments SET purpose = ?, start_datetime = ?, "
-            + "end_datetime = ?, appointment_fees = ?, payment_status = ? "
+            + "end_datetime = ?, appointment_fees = ? "
             + "WHERE appointment_id = ?;";
     try {
         Class.forName("com.mysql.cj.jdbc.Driver"); // Ensure MySQL driver is loaded
@@ -104,8 +104,7 @@ public class Appointments {
             ps.setString(2, start_datetime);
             ps.setString(3, end_datetime);
             ps.setDouble(4, Double.parseDouble(appointment_fees));
-            ps.setString(5, payment_status);
-            ps.setInt(6, Integer.parseInt(appointment_id));
+            ps.setInt(5, Integer.parseInt(appointment_id));
 
             int affectedRows = ps.executeUpdate(); // Check if update was successful
             return affectedRows > 0 ? 1 : 0; // Return 1 if rows were updated, 0 otherwise
