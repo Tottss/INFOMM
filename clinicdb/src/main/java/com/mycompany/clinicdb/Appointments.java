@@ -85,8 +85,38 @@ public class Appointments {
         return 0;
     }
     
-    public static boolean 
+    public int update_appointment(String appointment_id, String purpose, String date, 
+                              String start_time, String end_time, 
+                              String appointment_fees, String payment_status) {
+    
+    String start_datetime = date + " " + start_time;
+    String end_datetime = date + " " + end_time;
 
+    String query = "UPDATE appointments SET purpose = ?, start_datetime = ?, "
+            + "end_datetime = ?, appointment_fees = ?, payment_status = ? "
+            + "WHERE appointment_id = ?;";
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver"); // Ensure MySQL driver is loaded
+        try (Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
+            ps.setString(1, purpose);
+            ps.setString(2, start_datetime);
+            ps.setString(3, end_datetime);
+            ps.setDouble(4, Double.parseDouble(appointment_fees));
+            ps.setString(5, payment_status);
+            ps.setInt(6, Integer.parseInt(appointment_id));
+
+            int affectedRows = ps.executeUpdate(); // Check if update was successful
+            return affectedRows > 0 ? 1 : 0; // Return 1 if rows were updated, 0 otherwise
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    return -1; // Return -1 if there was an error
+    }
 
 }
+
+        

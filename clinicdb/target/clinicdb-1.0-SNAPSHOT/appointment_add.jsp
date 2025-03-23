@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>Add Appointment</h1>
-        <form action="appointment_process.jsp" method="post">
+        <form action="appointment_add_result.jsp" method="post">
             <label for="mrn" >Select the Patient</label>
             <select name="mrn" id="mrn" required>
                 <jsp:include page="helper_select_patient.jsp"></jsp:include>
