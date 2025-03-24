@@ -191,6 +191,22 @@ public class Appointments {
             return -1; // Error occurred
         }
     }
+    
+    public void view_appointment(String appointment_id){
+        String query = "SELECT ? FROM clinic.vw_appointment_details;";
+        
+        try {
+        Class.forName("com.mysql.cj.jdbc.Driver"); // Ensure MySQL driver is loaded
+            try (Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
+                 PreparedStatement ps = conn.prepareStatement(query)) {
+
+                ps.setInt(1, Integer.parseInt(appointment_id));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

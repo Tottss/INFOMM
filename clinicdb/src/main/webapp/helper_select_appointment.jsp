@@ -9,7 +9,7 @@ try {
     Class.forName("com.mysql.cj.jdbc.Driver");
     try {
         conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
-        String query = "select appointment_id from appointments;";
+        String query = "SELECT * from clinic.vw_appointmentdetails;";
 
         stmt = conn.prepareStatement(query);
         rs = stmt.executeQuery();
@@ -17,7 +17,7 @@ try {
         while (rs.next()) {
     %>
         <option value="<%= rs.getString("appointment_id") %>">
-            <%= rs.getString("appointment_id") %>
+            <%= rs.getString("patient_name") %>
         </option>
     <%
         }
