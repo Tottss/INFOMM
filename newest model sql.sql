@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `clinic`.`lab_reports` (
   `lab_fees` DOUBLE NOT NULL,
   `lab_results` VARCHAR(45) NULL DEFAULT NULL,
   `report_status` ENUM('pending', 'completed') NOT NULL,
+  `payment_status` ENUM('unpaid', 'paid', 'refunded') NOT NULL,
   PRIMARY KEY (`lab_report_id`),
   INDEX `idx_doctors_npi` (`npi` ASC) VISIBLE,
   INDEX `idx_patients_mrn` (`mrn` ASC) VISIBLE,
