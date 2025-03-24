@@ -9,8 +9,7 @@
         <jsp:useBean id="diagnosis_adder" class="com.mycompany.clinicdb.Diagnosis" scope="page"/>
         <%
             int appointment = diagnosis_adder.add_diagnosis(request.getParameter("appointment_id"),
-                                            request.getParameter("diagnosis"),
-                                            request.getParameter("treatment"));
+                                            request.getParameter("diagnosis"));
                                             
             if (appointment == 1){out.println("<h1>Successfully added diagnosis.</h1><br>"); }
             else if (appointment == -1) {

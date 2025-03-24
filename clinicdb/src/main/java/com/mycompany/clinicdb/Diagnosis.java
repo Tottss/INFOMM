@@ -18,12 +18,11 @@ public class Diagnosis {
     // 1 : it worked
     // 0 idk wtf happened
     public static int add_diagnosis(String appointment_id,
-                                      String diagnosis,
-                                      String treatment){
+                                      String diagnosis){
         // sql query
         String query = "INSERT INTO diagnosis (appointment_id, "
-                + "diagnosis, treatment)"
-                + "VALUES (?,?,?);";
+                + "diagnosis)"
+                + "VALUES (?,?);";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
             try {
@@ -39,7 +38,6 @@ public class Diagnosis {
                 ps = conn.prepareStatement(query);
                 ps.setString(1, appointment_id);
                 ps.setString(2, diagnosis);
-                ps.setString(3, treatment);
                 
                 ps.executeUpdate();
                 ps.close();
@@ -73,7 +71,6 @@ public class Diagnosis {
                         this.diagnosis_id = rs.getString("diagnosis_id");  // ✅ Correctly assigning NPI
                         this.appointment_id = rs.getString("appointment_id");
                         this.diagnosis = rs.getString("diagnosis"); // ✅ Fixed capitalization
-                        this.treatment = rs.getString("treatment");
                         return 1; // Doctor found
                     } else {
                         this.diagnosis_id = "No Diagnosis found";

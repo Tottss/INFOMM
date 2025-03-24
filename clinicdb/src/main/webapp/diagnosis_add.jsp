@@ -16,8 +16,6 @@
             <label for="diagnosis">Diagnosis:</label>
             <input type="text" id="diagnosis" name="diagnosis" required><br>
             
-            <label for="treatment">Treatment:</label>
-            <input type="text" id="treatment" name="treatment"><br>
 
         
             <button type="submit">Submit Diagnosis</button>
