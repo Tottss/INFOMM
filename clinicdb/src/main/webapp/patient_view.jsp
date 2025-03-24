@@ -25,16 +25,18 @@
     </form>
 
     <form method="GET" action="patient_view.jsp">
-    <button type="submit" name="view_all" value="true">View All Patients</button>
+        <button type="submit" name="view_all" value="true">View All Patients</button>
     </form>
     
     <hr>
 
     <%
+        // Check if the view_all parameter is present or if the page is loaded for the first time
         String category = request.getParameter("category");
         String searchValue = request.getParameter("search_value");
         String viewAll = request.getParameter("view_all");
 
+        // If no search is performed, show all patients by default
         if (viewAll != null && viewAll.equals("true")) {
             // View all patients
             try {
@@ -45,7 +47,7 @@
                 ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
-                %>
+    %>
                     <h2>All Patients</h2>
                     <table border="1">
                         <tr>
@@ -88,9 +90,8 @@
                 <p>Error: <%= e.getMessage() %></p>
         <%
             }
-        }
-        
-        else if (category != null && searchValue != null && !searchValue.trim().isEmpty()) { // only one result, unique mrn
+        } else if (category != null && searchValue != null && !searchValue.trim().isEmpty()) {
+            // Search for a specific patient
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
@@ -128,7 +129,7 @@
                         <p>No patient found with that MRN.</p>
     <%
                     }
-                } else { // If searching by name or specialization, retrieve multiple results
+                } else { // If searching by name or other criteria
                     String query = "";
                     if ("name".equals(category)) {
                         query = "SELECT * FROM patients WHERE last_name LIKE ? OR first_name LIKE ?";
@@ -137,7 +138,6 @@
                     } else if ("contact_no".equals(category)) {
                         query = "SELECT * FROM patients WHERE contact_no LIKE ?";
                     } 
-
 
                     ps = conn.prepareStatement(query);
                     if ("name".equals(category)) {
@@ -168,7 +168,7 @@
                             <tr>
                                 <td><%= rs.getString("mrn") %></td>
                                 <td><%= rs.getString("last_name") %></td>
-                                <td><%= rs.getString("first_name") %></td>
+                                < td><%= rs.getString("first_name") %></td>
                                 <td><%= rs.getString("middle_name") %></td>
                                 <td><%= rs.getString("sex") %></td>
                                 <td><%= rs.getString("birth_date") %></td>
@@ -187,6 +187,59 @@
                     rs.close();
                     ps.close();
                 }
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+    %>
+                <p>Error: <%= e.getMessage() %></p>
+    <%
+            }
+        } else {
+            // Default action to show all patients when the page loads
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
+                String query = "SELECT * FROM patients";
+                PreparedStatement ps = conn.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+    %>
+                    <h2>All Patients</h2>
+                    <table border="1">
+                        <tr>
+                            <th>MRN</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Sex</th>
+                            <th>Birth Date</th>
+                            <th>Contact No</th>
+                        </tr>
+    <%
+                    do {
+    %>
+                        <tr>
+                            <td><%= rs.getString("mrn") %></td>
+                            <td><%= rs.getString("last_name") %></td>
+                            <td><%= rs.getString("first_name") %></td>
+                            <td><%= rs.getString("middle_name") %></td>
+                            <td><%= rs.getString("sex") %></td>
+                            <td><%= rs.getString("birth_date") %></td>
+                            <td><%= rs.getString("contact_no") %></td>
+                        </tr>
+    <%
+                    } while (rs.next());
+    %>
+                    </table>
+    <%
+                } else {
+    %>
+                    <p>No patients found.</p>
+    <%
+                }
+                rs.close();
+                ps.close();
                 conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
