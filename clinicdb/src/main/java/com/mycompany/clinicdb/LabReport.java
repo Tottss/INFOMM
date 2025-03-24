@@ -20,15 +20,14 @@ public class LabReport {
     // -2 : doctor is already booked at the same time
     // 1 : it worked
     // 0 idk wtf happened
-    public static int add_labreport(String lab_request_id, String mrn, String npi,
-                                      String payment_id, String findings, String date, String time,
+    public static int add_labreport(String lab_request_id, String mrn, String npi, String findings, String date, String time,
                                       String lab_fees, String lab_results, 
                                       String report_status, String payment_status){
         // sql query
         String query = "INSERT INTO lab_reports (lab_request_id, mrn, npi, "
-                + "payment_id, findings, lab_test_datetime, "
+                + " findings, lab_test_datetime, "
                 + "lab_fees, lab_results, report_status, payment_status) "
-                + "VALUES (?,?,?,?,?,?,?,?,?,?);";
+                + "VALUES (?,?,?,?,?,?,?,?,?);";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // PLS DONT REMOVE
             try {
@@ -40,37 +39,19 @@ public class LabReport {
                 
                 //Parse html date and time inputs
                 String datetime = date + " " + time;
-                
-                // Check if lab report overlaps with another
-                ps4 = conn.prepareStatement("SELECT lrp.lab_report_id "
-                        + "FROM lab_reports lrp "
-                        + "WHERE lrp.lab_test_datetime = ? ");
-                ps4.setString(1, datetime); 
-                rs4 = ps4.executeQuery();
-                
-                if (rs4.next()){ return -1; }
-                
-                // Check if doctor is booked
-                ps3 = conn.prepareStatement("SELECT d.npi FROM doctors d "
-                        + "JOIN lab_reports lrp ON d.npi=lrp.npi "
-                        + "WHERE lrp.lab_test_datetime = ? ");
-                ps3.setString(1, datetime);
-                rs3 = ps3.executeQuery();
-                
-                if (rs3.next()){ return -2; }
+               
                 
                 // MAIN INSERT SQL QUERY
                 ps = conn.prepareStatement(query);
                 ps.setString(1, lab_request_id);
                 ps.setString(2, mrn);
                 ps.setString(3, npi);
-                ps.setString(4, payment_id);
-                ps.setString(5, findings);
-                ps.setString(6, datetime);
-                ps.setString(7, lab_fees);  
-                ps.setString(8, lab_results);
-                ps.setString(9, report_status);
-                ps.setString(10, payment_status);
+                ps.setString(4, findings);
+                ps.setString(5, datetime);
+                ps.setString(6, lab_fees);  
+                ps.setString(7, lab_results);
+                ps.setString(8, report_status);
+                ps.setString(9, payment_status);
                 
                 ps.executeUpdate();
                 return 1;
