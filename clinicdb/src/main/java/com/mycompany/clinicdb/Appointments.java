@@ -12,6 +12,63 @@ public class Appointments {
     public String end_datetime = null;
     public String appointment_fees = null;
     public String payment_status = null;
+    public String patient_name = null;
+    public String sex = null;
+    public String birth_date = null;
+    public String contact_no = null;
+    public String attending_doctor = null;
+    public String specialization = null;
+    public String lab_report_status = null;
+    public String lab_fees = null;
+    public String total_fees = null;
+    
+            
+    public void view_appointment(String var, String varname){
+        String check = "SELECT ? FROM clinic.vw_appointment_details WHERE ? LIKE '%?%";
+        String query = "SELECT * FROM clinic.vw_appointment_details;";
+        
+        try {
+        Class.forName("com.mysql.cj.jdbc.Driver"); // Ensure MySQL driver is loaded
+            try (Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
+                 PreparedStatement ps = conn.prepareStatement(check)) {
+
+                ps.setString(1, var);
+                ps.setString(2, var);
+                ps.setString(3, varname);
+                
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()){
+                    PreparedStatement ps2 = conn.prepareStatement(query);
+                    ResultSet rs2 = ps2.executeQuery();
+                    
+                    if (rs2.next()) {
+                        
+                        this.appointment_id = rs.getString("appointment_id");
+                        this.patient_name = rs.getString("patient_name");
+                        this.sex = rs.getString("sex");
+                        this.birth_date = rs.getString("birth_date");
+                        this.contact_no = rs.getString("contact_no");
+                        this.attending_doctor = rs.getString("attending_doctor");
+                        this.specialization = rs.getString("specialization");
+                        this.purpose = rs.getString("purpose");
+                        this.start_datetime = rs.getString("start_datetime");
+                        this.end_datetime = rs.getString("end_datetime");
+                        this.lab_report_status = rs.getString("lab_report_status");
+                        this.appointment_fees = rs.getString("appointment_fees");
+                        this.lab_fees = rs.getString("lab_fees");
+                        this.total_fees = rs.getString("total_fees");
+                        this.payment_status = rs.getString("payment_status");
+                    }
+                }
+                
+                
+                
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public void get_appointment(String appointment_id){
         String query = "SELECT * FROM appointments WHERE appointment_id = ?";
@@ -189,22 +246,6 @@ public class Appointments {
         } catch (Exception e) {
             e.printStackTrace();
             return -1; // Error occurred
-        }
-    }
-    
-    public void view_appointment(String appointment_id){
-        String query = "SELECT ? FROM clinic.vw_appointment_details;";
-        
-        try {
-        Class.forName("com.mysql.cj.jdbc.Driver"); // Ensure MySQL driver is loaded
-            try (Connection conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
-                 PreparedStatement ps = conn.prepareStatement(query)) {
-
-                ps.setInt(1, Integer.parseInt(appointment_id));
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

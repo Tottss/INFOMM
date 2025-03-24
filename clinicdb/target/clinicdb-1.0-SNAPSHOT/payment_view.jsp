@@ -7,7 +7,7 @@
     </head>
     <body>
         <h2>Search for an Appointment</h2>
-        <form action="appointment_view_process.jsp" method="post">
+        <form action="appointment_view.jsp" method="post">
             
             <label for="category">Search By:</label>
             <select id="category" name="category">
@@ -20,6 +20,24 @@
 
             <input type="text" id="search_value" name="search_value" required>
             <button type="submit">Search</button>
-        </form>        
+        </form>
+            
+        <h2>Payment Details</h2>
+            <table border="1">
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient Name</th>
+                    <th>Start Date and Time</th>
+                    <th>End Date and Time</th>
+                    <th>Appointment Fees</th>
+                    <th>Lab Fees</th>
+                    <th>Total Fees</th>
+                    <th>Payment Status</th>
+                    </tr>
+                    <tr>
+                        <td><%= A.npi %></td>
+                        <td><%= A.last_name %></td>
+                    </tr>
+            /table>
     </body>
 </html>
