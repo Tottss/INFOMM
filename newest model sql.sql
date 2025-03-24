@@ -211,7 +211,6 @@ CREATE TABLE IF NOT EXISTS `clinic`.`diagnosis` (
   `diagnosis_id` INT NOT NULL AUTO_INCREMENT,
   `appointment_id` INT NOT NULL,
   `diagnosis` VARCHAR(45) NOT NULL,
-  `treatment` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`diagnosis_id`),
   UNIQUE INDEX `diagnosis_id_UNIQUE` (`diagnosis_id` ASC) VISIBLE,
   INDEX `fk_diagnosis_lab_report_id_idx` (`appointment_id` ASC) VISIBLE,
@@ -245,6 +244,25 @@ CREATE TABLE IF NOT EXISTS `clinic`.`prescriptions` (
     REFERENCES `clinic`.`doctors` (`npi`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `clinic`.`treatment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clinic`.`treatment` (
+  `treament_id` INT NOT NULL AUTO_INCREMENT,
+  `diagnosis_id` INT NOT NULL,
+  `medication` VARCHAR(45) NOT NULL,
+  `dosage` VARCHAR(45) NOT NULL,
+  UNIQUE INDEX `treament_id_UNIQUE` (`treament_id` ASC) VISIBLE,
+  PRIMARY KEY (`treament_id`),
+  INDEX `FKtreat_idx` (`diagnosis_id` ASC) VISIBLE,
+  CONSTRAINT `FKtreat`
+    FOREIGN KEY (`diagnosis_id`)
+    REFERENCES `clinic`.`diagnosis` (`diagnosis_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
