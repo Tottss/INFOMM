@@ -8,6 +8,7 @@
         <title>Appointment Details</title>
     </head>
     <body>
+        <form action="payment_process.jsp" method="post">
         <h2>Appointment Details</h2>
         <table border="1">
             <tr>
@@ -28,7 +29,7 @@
                 <th>Payment Status</th>
             </tr>
 
-            <jsp:useBean id="A" class="com.mycompany.clinicdb.Appointments" scope="page"/>
+            <jsp:useBean id="A" class="com.mycompany.clinicdb.Appointments" scope="session"/>
             
             <%
                 String category = request.getParameter("category");
@@ -62,6 +63,17 @@
             <%
                 }
             %>
-        </table>
+        </table> <br>
+        
+        <label for="appointment_id">Select Appointment:</label>
+        <select name="appointment_id" id="appointment_id" required>
+            <% for (Appointments appt : appointmentsList) { %>
+                <option value="<%= appt.appointment_id %>"><%= appt.appointment_id %></option>
+            <% } %>
+        </select>
+        <label for="amount_paid">Enter Amount Paid</label>
+            <input type="text" name="amount_paid" id="amount_paid" required><br>
+            
+        <button type="submit">Proceed to Payment</button>
     </body>
 </html>

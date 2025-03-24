@@ -7,7 +7,7 @@
     </head>
     <body>
         <h2>Search for an Appointment</h2>
-        <form action="appointment_view_process.jsp" method="post">
+        <form action="appointment_view_result.jsp" method="post">
             
             <label for="category">Search By:</label>
             <select id="category" name="category">
