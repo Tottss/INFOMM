@@ -7,8 +7,8 @@
 <body>
     <jsp:useBean id="A" class="com.mycompany.clinicdb.ViewAppointment" scope="session"/>
     <%
-        String appointmentId = request.getParameter("appointmentId"); // Get from URL or form
-        A.getAppointmentDetails(appointmentId);
+        String appointmentId = request.getParameter("lab_report_id"); // Get from URL or form
+        A.getLabReportDetails(lab_report_id);
     %>
     <h2>Appointment Details</h2>
     <p><strong>Patient Name:</strong> <%= A.patientName%></p>
