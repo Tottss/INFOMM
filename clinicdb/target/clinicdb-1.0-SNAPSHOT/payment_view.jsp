@@ -24,16 +24,7 @@
             
         <h2>Payment Details</h2>
             <table border="1">
-                <tr>
-                    <th>Appointment ID</th>
-                    <th>Patient Name</th>
-                    <th>Start Date and Time</th>
-                    <th>End Date and Time</th>
-                    <th>Appointment Fees</th>
-                    <th>Lab Fees</th>
-                    <th>Total Fees</th>
-                    <th>Payment Status</th>
-                    </tr>
+                
                     <tr>
                         <td><%= A.npi %></td>
                         <td><%= A.last_name %></td>
