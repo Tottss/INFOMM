@@ -9,15 +9,15 @@ try {
     Class.forName("com.mysql.cj.jdbc.Driver");
     try {
         conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
-        String query = "select lab_report_id from lab_reports;";
+        String query = "select payment_id from payments;";
 
         stmt = conn.prepareStatement(query);
         rs = stmt.executeQuery();
 
         while (rs.next()) {
     %>
-        <option value="<%= rs.getString("lab_report_id") %>">
-            <%= rs.getString("lab_report_id") %>
+        <option value="<%= rs.getString("payment_id") %>">
+            <%= rs.getString("payment_id") %>
         </option>
     <%
         }

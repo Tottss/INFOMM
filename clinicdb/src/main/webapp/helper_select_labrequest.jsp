@@ -9,24 +9,15 @@ try {
     Class.forName("com.mysql.cj.jdbc.Driver");
     try {
         conn = DriverManager.getConnection(DBConnection.URL, DBConnection.USER, DBConnection.PASSWORD);
-        String query = "SELECT CONCAT( " +
-                   "    COALESCE(first_name, ''), ' ', " + 
-                   "    CASE " +
-                   "        WHEN (middle_name IS NOT NULL AND middle_name <> '') " +
-                   "        THEN CONCAT(middle_name, ' ') " +
-                   "        ELSE '' " +
-                   "    END, " +
-                   "    COALESCE(last_name, '') " +
-                   ") AS patient, mrn" +
-                   "  FROM patients;";
+        String query = "select lab_request_id from lab_requests;";
 
         stmt = conn.prepareStatement(query);
         rs = stmt.executeQuery();
 
         while (rs.next()) {
     %>
-        <option value="<%= rs.getString("mrn") %>">
-            <%= rs.getString("patient") %>
+        <option value="<%= rs.getString("lab_request_id") %>">
+            <%= rs.getString("lab_request_id") %>
         </option>
     <%
         }
